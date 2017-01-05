@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head></h:head> 
+<body> 
+
+<h:form id="frmInstance">
+Release Name:<h:inputText value="#{instanceController.instance.releaseName}" />
+Release Type:<h:inputText value="#{instanceController.instance.releaseType}" />
+Release Notes:<h:inputText value="#{instanceController.instance.releaseNotes}" />
+
+
+
+		<h:commandButton action="#{instanceController.save}" value="Save">
+			<f:ajax execute="frmInstance" render="frmInstance" />
+		</h:commandButton>
+
+		<h:commandButton rendered="#{instanceController.editMode}"
+			action="#{instanceController.save}" value="Cancel">
+			<f:ajax render="frmInstance"></f:ajax>
+		</h:commandButton>
+
+		<h:dataTable value="#{instanceController.instances}" var="i" id="dtInstance">
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+	 	#{i.id}
+	</h:column>
+
+
+
+			<h:column>
+				<f:facet name="header">Release Name</f:facet>
+	 	#{i.releaseName}
+	</h:column>
+
+
+			<h:column>
+				<f:facet name="header">Release Type</f:facet>
+	 	#{i.releaseType}
+	</h:column>
+
+
+			<h:column>
+				<f:facet name="header">Release Notes</f:facet>
+		#{i.releaseNotes}
+	</h:column>
+
+			<h:column>
+				<f:facet name="header">Actions</f:facet>
+				<h:commandButton action="#{instanceController.delete(i)}"
+					value="Delete" onclick="return window.confirm ('Are you sure?')">
+					<f:ajax render="frmInstance:dtInstance" />
+				</h:commandButton>
+				<h:commandButton action="#{instanceController.update(i)}"
+					value="Update">
+					<f:ajax render="frmInstance" />
+				</h:commandButton>
+			</h:column>
+		</h:dataTable>
+	</h:form>
+
+
+</body> 
+</html>
